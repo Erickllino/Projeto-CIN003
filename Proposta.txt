@@ -1,5 +1,11 @@
 Projeto: Robo JokePo
 
+Discentes:
+Erick Vinicius Rebouças Cruz
+Beatrice Litssa Queiroz Peixoto
+Maria Clara Rodrigues de Almeida 
+Ivan Carvalho Ernesto Bezerra
+Bruno Antônio dos Santos Bezerra
 1. Ideia
     - O projeto consiste no desenvolvimento de uma mão mecânica capaz de executar movimentos similares aos de uma mão humana. 
     A mão será composta por:
