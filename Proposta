@@ -1,0 +1,96 @@
+Projeto: Robo JokePo
+
+1. Ideia
+    - O projeto consiste no desenvolvimento de uma mão mecânica capaz de executar movimentos similares aos de uma mão humana. 
+    A mão será composta por:
+
+    
+    Seis motores servo: um para cada um dos cinco dedos e um adicional para controlar a rotação da mão (Para simule o inicio do "pedra, papel, tesoura"). 
+    Inicialmente pensamos em fazer o movimento dos dedos ser realizado por meio de um sistema de acionamento com fios. Esses fios puxarão os dedos, 
+    enquanto molas vão fechar naturalmente os mesmos.
+
+    A mão será controlada por um Arduino, que fará a gestão de todas as funções de movimento e lógica de jogo. 
+    Um Raspberry Pi 3, equipado com uma câmera, ficará responsável por captar os gestos do oponente e, o Arduino
+    com base em algoritmos implementados, determinará qual ação a mão deve executar.
+
+    O sistema operará em quatro modos distintos:
+        Sempre Ganha: A mão SEMPRE escolhe o movimento ganhador de acordo com o oponente.
+        Sempre Perde: A mão SEMPRE escolhe o movimento perdedor de acordo com o oponente.
+        Sempre Empata: A mão SEMPRE escolhe do oponente
+        Aleatório: A mão escolhe sua ação de forma Aleatória.
+
+2. Lista de Peças Necessárias
+
+    Arduino
+    Raspberry Pi 3
+    Câmera Compatível: para uso com o Raspberry Pi (Já adiquirida)
+    Fonte de Alimentação: compatível com Arduino e Raspberry Pi
+    Placa de Protoboard e Conectores Diversos
+    Motores Servo: 6 unidades (5 para os dedos e 1 para a rotação)
+    Fios: para o sistema de acionamento dos dedos
+    Molas: para o fechamento dos dedos
+    Materiais para a Estrutura da Mão:
+        Inicialmente papelão para prototipos
+
+3. Divisão das Atividades
+    Fase 1: Pesquisa e Planejamento
+
+        Pesquisa:
+        Pesquisa sobre sistemas de mãos mecânicas e mecanismos de acionamento.
+        Definição de Requisitos:
+        Especificar as funcionalidades e modos de operação da mão.
+        Estudo dos Componentes:
+        Seleção dos motores e materiais adequados para o projeto.
+
+    Fase 2: Projeto Mecânico
+
+        Prototipagem:
+        Tentativa e erro, baseada na pesquisa da fase 1. Utilizando papelao
+        Desenvolvimento do Sistema de Ação:
+        Projeto do sistema de fios e molas para o acionamento dos dedos.
+        Fazendo cada dedo separadamente Inicialmente, para testar se funciona
+
+    Fase 3: Desenvolvimento Eletrônico e de Software
+
+        Montagem dos Circuitos:
+        Configuração do Arduino e integração dos motores servo.
+
+        Configuração do Raspberry Pi:
+        Instalação da câmera e ambiente de desenvolvimento.(Já feito)
+        Seria bom colocar uma forma de preprocessar os dados, para ter resultados consistentes
+
+        Programação:
+            Desenvolvimento do código no Arduino para controlar os movimentos.
+            Implementação dos algoritmos de reconhecimento de gestos e definição dos modos de jogo no Raspberry Pi.
+            Integração dos sistemas para comunicação entre Arduino e Raspberry Pi.
+
+    Fase 4: Integração e Testes
+
+        Testes Unitários:
+        Validação individual dos módulos mecânico, eletrônico e de software.
+        Integração dos Sistemas:
+        Montagem final e sincronização dos componentes.
+        Ajustes e Otimizações:
+        Refinamento do projeto
+        Testes com Usuários:
+        Sessões práticas para tentar encontra possiveis erros.
+
+    Fase 5: Documentação e Apresentação (Se necessário)
+
+        Elaboração da Documentação Técnica:
+        Registro detalhado de todo o desenvolvimento do projeto.
+        Preparação da Apresentação:
+        Desenvolvimento de slides, demonstrações e relatórios para a defesa do projeto na faculdade.
+
+
+O trabalho foi desenvolvido para atacar todos os criterios pedidos:
+
+Criatividade e Inovação (20%) -- Fase 1
+
+Complexidade Técnica (20%) -- Desenvolvido nas fases 2 e 3
+
+Funcionalidade (20%) -- Testado, extensivamente, na Fase 4
+
+Documentação (20%) -- Desenvolvido de acordo com o andar do projeto
+
+Apresentação (20%) --  Fase 5
