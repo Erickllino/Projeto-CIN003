@@ -1,4 +1,4 @@
-# Projeto-IC-CIN003-
+# Projeto Introdução à Computação
 Projeto para a feira de ciências da cadeira de Introdução à Computação
 Projeto: Robo JokePo
 
