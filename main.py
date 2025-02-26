@@ -3,7 +3,7 @@ import mediapipe as mp
 import RPi.GPIO as GPIO
 import time
 
-# Configuração dos pinos GPIO
+#Configuração dos pinos GPIO
 GPIO.setmode(GPIO.BCM)
 GPIO_PEDRA = 17   # Ajuste conforme necessário
 GPIO_PAPEL = 27   # Ajuste conforme necessário
@@ -89,4 +89,4 @@ try:
 finally:
     cap.release()
     cv2.destroyAllWindows()
-    GPIO.cleanup()
+    #GPIO.cleanup()
