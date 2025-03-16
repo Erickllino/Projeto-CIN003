@@ -5,10 +5,7 @@
 // Pr ficar organizado, vale 
 
 // Define os botões que escolhe os modos de jogos
-#define botao_mao_ganha 6
-#define botao_mao_perde 7
-#define botao_mao_empata 8
-#define botao_mao_aleatoria 9 // !!! Criar essa função !!! (eu vou estudar e fazer erick, relaxe)
+#define escolha_do_jogo A0
 
 // Define os pinos de possiveis jogadas
 #define pino_papel 2
@@ -50,17 +47,18 @@ void setup(){
 
 
 // Descobre a opção de modo de jogo escolhida pelo player
-int botao_apertado(bt_mg, bt_mp, bt_me, bt_ma){
-  if (bt_mg == HIGH){
+// Trocar isso por um potenciometro
+int jogo_Escolhido(int valor){
+  if (valor >= 0 && valor < 250){
     return 1;
   }
-  elif (bt_mp == HIGH){
+  if (valor > 250 && valor < 500){
     return 2;
   }
-  elif (bt_me == HIGH){
+  if (valor > 500 && valor < 750){
     return 3;
   }
-  elif (bt_ma == HIGH){
+  if (valor > 750 && valor <= 1023){
     return 4;
   }
 
@@ -155,105 +153,17 @@ int mao_empata(tesoura,pedra,papel,desconhecido){
 
 }
 
-void mao_fecha(){
-  // Faz a mão fechar
 
-  // Fecha o polegar
-  digitalWrite(dedo_polegar_p1, LOW);
-  digitalWrite(dedo_polegar_p2, HIGH);
-
-  // Fecha o indicador
-  digitalWrite(dedo_indicador_p1, LOW);
-  digitalWrite(dedo_indicador_p2, HIGH);
-
-  // Fecha o médio
-  digitalWrite(dedo_medio_p1, LOW);
-  digitalWrite(dedo_medio_p2, HIGH);
-
-  // Fecha o anelar
-  digitalWrite(dedo_anelar_p1, LOW);
-  digitalWrite(dedo_anelar_p2, HIGH);
-
-  // Fecha o mínimo
-  digitalWrite(dedo_minimo_p1, LOW);
-  digitalWrite(dedo_minimo_p2, HIGH);
-}
-
-void mao_joga_pedra(){
-  // Faz a mão jogar pedra
-  // Aqui não precisa fechar a mão, pois a mão já está fechada na hora de jogar
-
-}
-
-void mao_joga_papel(){
-  // Faz a mão jogar papel
-  
-  // Solta o polegar
-  digitalWrite(dedo_polegar_p1, HIGH);
-  digitalWrite(dedo_polegar_p2, LOW);
-
-  // Solta o indicador
-  digitalWrite(dedo_indicador_p1, HIGH);
-  digitalWrite(dedo_indicador_p2, LOW);
-
-  // Solta o médio
-  digitalWrite(dedo_medio_p1, HIGH);
-  digitalWrite(dedo_medio_p2, LOW);
-
-  // Solta o anelar
-  digitalWrite(dedo_anelar_p1, HIGH);
-  digitalWrite(dedo_anelar_p2, LOW);
-
-  // Solta o mínimo
-  digitalWrite(dedo_minimo_p1, HIGH);
-  digitalWrite(dedo_minimo_p2, LOW);
-
-
-}
-
-void mao_joga_tesoura(){
-  // Faz a mão jogar tesoura
-
-  // Solta o polegar
-  digitalWrite(dedo_polegar_p1, HIGH);
-  digitalWrite(dedo_polegar_p2, LOW);
-
-  // Solta o anelar
-  digitalWrite(dedo_anelar_p1, HIGH);
-  digitalWrite(dedo_anelar_p2, LOW);
-
-  // Solta o mínimo
-  digitalWrite(dedo_minimo_p1, HIGH);
-  digitalWrite(dedo_minimo_p2, LOW);
-
-}
-
-
-
-// Funções para reagir ao resultado
-void mao_vencedora(){
-  // Vamos colocar aqui os sons e as luzes de que a mão venceu
-}
-
-void mao_derrotada(){
-  // Vamos colocar aqui os sons e as luzes de que a mão perdeu
-}
-
-void mao_empatada(){
-  // Vamos colocar aqui os sons e as luzes de que a mão de empate
-}
 
 
 
 
 void loop(){
-    // Lê os botões
-    bt_mg = digitalRead(botao_mao_ganha);
-    bt_mp = digitalRead(botao_mao_perde);
-    bt_me = digitalRead(botao_mao_empata);
-    bt_ma = digitalRead(botao_mao_aleatoria);
+    
+
     // Escolhe qual dos 3 jogos serão jogados
-    modo_de_jogo = botao_apertado(bt_mg, bt_mp, bt_me, bt_ma);
+    int potencio = analogRead(A0);
+    modo_de_jogo = botao_apertado(potencio);
 
     // Leu o estado dos pinos
     tesoura = digitalRead(pino_tesoura);
