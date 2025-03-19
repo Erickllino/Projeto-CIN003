@@ -3,9 +3,28 @@ import mediapipe as mp
 import serial
 import time
 
-# Configuração da comunicação serial com o Arduino
-ser = serial.Serial('COM3', 9600)  # Altere 'COM3' para a porta serial correta no seu sistema
-time.sleep(2)  # Aguarda 2 segundos para garantir que a comunicação serial esteja estável
+def connect_to_arduino(port='/dev/ttyACM0', baud_rate=9600, timeout=2, attempts=5):
+    for attempt in range(attempts):
+        try:
+            print(f"Attempting to connect to Arduino on {port} (attempt {attempt+1}/{attempts})")
+            ser = serial.Serial(port, baud_rate, timeout=timeout)
+            time.sleep(2)  # Give the connection time to establish
+            print("Successfully connected to Arduino")
+            return ser
+        except serial.SerialException as e:
+            print(f"Failed to connect: {e}")
+            if attempt < attempts - 1:
+                print("Retrying in 3 seconds...")
+                time.sleep(3)
+    
+    print("Could not establish connection to Arduino. Please check your connections.")
+    return None
+
+# Then in your main code:
+ser = connect_to_arduino()
+if ser is None:
+    print("Exiting program due to connection failure")
+    exit()
 
 mp_hands = mp.solutions.hands
 mp_drawing = mp.solutions.drawing_utils
@@ -49,9 +68,10 @@ def detectar_gesto(hand_landmarks):
 def enviar_sinal(gesto):
     # Envia o gesto para o Arduino via serial
     if gesto in ["Pedra", "Papel", "Tesoura"]:
+        gesto = gesto + ', '
         ser.write(gesto.encode())  # Envia o gesto como string para o Arduino
         print(f"Enviado para o Arduino: {gesto}")
-    time.sleep(1)  # Pequeno delay para evitar sinais rápidos demais
+    #time.sleep(1)  # Pequeno delay para evitar sinais rápidos demais
 
 try:
     while cap.isOpened():

@@ -1,17 +1,30 @@
 import cv2
 import mediapipe as mp
-import RPi.GPIO as GPIO
+import serial
 import time
 
-#Configuração dos pinos GPIO
-GPIO.setmode(GPIO.BCM)
-GPIO_PEDRA = 17   # Ajuste conforme necessário
-GPIO_PAPEL = 27   # Ajuste conforme necessário
-GPIO_TESOURA = 22 # Ajuste conforme necessário
+def connect_to_arduino(port='/dev/ttyACM0', baud_rate=9600, timeout=2, attempts=5):
+    for attempt in range(attempts):
+        try:
+            print(f"Attempting to connect to Arduino on {port} (attempt {attempt+1}/{attempts})")
+            ser = serial.Serial(port, baud_rate, timeout=timeout)
+            time.sleep(2)  # Give the connection time to establish
+            print("Successfully connected to Arduino")
+            return ser
+        except serial.SerialException as e:
+            print(f"Failed to connect: {e}")
+            if attempt < attempts - 1:
+                print("Retrying in 3 seconds...")
+                time.sleep(3)
+    
+    print("Could not establish connection to Arduino. Please check your connections.")
+    return None
 
-GPIO.setup(GPIO_PEDRA, GPIO.OUT)
-GPIO.setup(GPIO_PAPEL, GPIO.OUT)
-GPIO.setup(GPIO_TESOURA, GPIO.OUT)
+# Then in your main code:
+ser = connect_to_arduino()
+if ser is None:
+    print("Exiting program due to connection failure")
+    exit()
 
 mp_hands = mp.solutions.hands
 mp_drawing = mp.solutions.drawing_utils
@@ -53,18 +66,12 @@ def detectar_gesto(hand_landmarks):
         return "Desconhecido"
 
 def enviar_sinal(gesto):
-    GPIO.output(GPIO_PEDRA, GPIO.LOW)
-    GPIO.output(GPIO_PAPEL, GPIO.LOW)
-    GPIO.output(GPIO_TESOURA, GPIO.LOW)
-    
-    if gesto == "Pedra":
-        GPIO.output(GPIO_PEDRA, GPIO.HIGH)
-    elif gesto == "Papel":
-        GPIO.output(GPIO_PAPEL, GPIO.HIGH)
-    elif gesto == "Tesoura":
-        GPIO.output(GPIO_TESOURA, GPIO.HIGH)
-    
-    time.sleep(1)  # Pequeno delay para evitar sinais rápidos demais
+    # Envia o gesto para o Arduino via serial
+    if gesto in ["Pedra", "Papel", "Tesoura"]:
+        gesto = gesto + ', '
+        ser.write(gesto.encode())  # Envia o gesto como string para o Arduino
+        print(f"Enviado para o Arduino: {gesto}")
+    #time.sleep(1)  # Pequeno delay para evitar sinais rápidos demais
 
 try:
     while cap.isOpened():
@@ -89,4 +96,4 @@ try:
 finally:
     cap.release()
     cv2.destroyAllWindows()
-    #GPIO.cleanup()
+    ser.close()  # Fecha a conexão serial com o Arduino
