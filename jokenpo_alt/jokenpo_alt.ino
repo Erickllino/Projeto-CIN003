@@ -6,7 +6,6 @@ void setup() {
     Serial.begin(9600);  // Inicia a comunicação serial com a mesma taxa de transmissão usada no Python
     
     while (!Serial) {
-        ;
         pinMode(LED_PEDRA, OUTPUT);
         pinMode(LED_PAPEL, OUTPUT);
         pinMode(LED_TESOURA, OUTPUT);

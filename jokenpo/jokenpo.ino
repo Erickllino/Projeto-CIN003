@@ -7,6 +7,9 @@
 // Define os botões que escolhe os modos de jogos
 #define ESCOLHER_O_JOGO A0
 
+// Define semente randômica
+#define RANDOM_SEED A1
+
 // Define os pinos de possiveis jogadas
 #define PEDRA_PIN 2
 #define PAPEL_PIN 3
@@ -30,16 +33,19 @@
 #define MAO_TESOURA 10
 
 void setup(){
-    Serial.begin(9600);
-    // Receberá informações do raspberrypi
-    pinMode(PEDRA_PIN, INPUT_PULLUP);
-    pinMode(PAPEL_PIN, INPUT_PULLUP);
-    pinMode(TESOURA_PIN, INPUT_PULLUP);
-    pinMode(DESCONHECIDO_PIN, INPUT_PULLUP);
+  Serial.begin(9600);
+  // Receberá informações do raspberrypi
+  pinMode(PEDRA_PIN, INPUT_PULLUP);
+  pinMode(PAPEL_PIN, INPUT_PULLUP);
+  pinMode(TESOURA_PIN, INPUT_PULLUP);
+  pinMode(DESCONHECIDO_PIN, INPUT_PULLUP);
     
 	pinMode(MAO_PEDRA, OUTPUT);
-  	pinMode(MAO_PAPEL, OUTPUT);
-  	pinMode(MAO_TESOURA, OUTPUT);
+  pinMode(MAO_PAPEL, OUTPUT);
+  pinMode(MAO_TESOURA, OUTPUT);
+
+  // Implementa críterios de aleatóriedade para sorteio
+  randomSeed(analogRead(A1))
 }
 
 // Estamos escrevendo muitas funçoes, acho interresante criar um arquivo .h para colocar todas as funções
@@ -90,17 +96,17 @@ void jogar_tesoura() {
 int ganhar(int pedra,int papel, int tesoura){
 
     
-  if (tesoura == 0){
+  if (tesoura == 3){
     Serial.print("Joguei tesoura");
     // Adiciona a função que faz a mão jogar pedra
     jogar_pedra();
   }
-   else if (pedra == 0){
+   else if (pedra == 1){
     Serial.print("Joguei pedra");
     // Adiciona a função que faz a mão jogar papel
     jogar_papel();
   }
-   else if (papel == 0){
+   else if (papel == 2){
     Serial.print("Joguei papel");
     // Adiciona a função que faz a mão jogar tesoura
     jogar_tesoura();
@@ -112,17 +118,17 @@ int ganhar(int pedra,int papel, int tesoura){
 int empatar(int pedra,int papel, int tesoura){
 
     
-  if (tesoura == 0){
+  if (tesoura == 3){
     Serial.print("Joguei tesoura");
     // Adiciona a função que faz a mão jogar tesoura
     jogar_tesoura();
   }
-   else if (pedra == 0){
+   else if (pedra == 1){
     Serial.print("Joguei pedra");
     // Adiciona a função que faz a mão jogar pedra
     jogar_pedra();
   }
-   else if (papel == 0){
+   else if (papel == 2){
     Serial.print("Joguei papel");
     // Adiciona a função que faz a mão jogar papel
     jogar_papel();
@@ -133,17 +139,17 @@ int empatar(int pedra,int papel, int tesoura){
 int perder(int pedra,int papel, int tesoura){
 
     
-  if (tesoura == 0){
+  if (tesoura == 3){
     Serial.print("Joguei tesoura");
     // Adiciona a função que faz a mão jogar papel
     jogar_papel();
   }
-   else if (pedra == 0){
+   else if (pedra == 1){
     Serial.print("Joguei pedra");
     // Adiciona a função que faz a mão jogar tesoura
     jogar_tesoura();
   }
-   else if (papel == 0){
+   else if (papel == 2){
     Serial.print("Joguei papel");
     // Adiciona a função que faz a mão jogar pedra
     jogar_pedra();
@@ -152,7 +158,36 @@ int perder(int pedra,int papel, int tesoura){
 }
 
 int aleatorio(int pedra,int papel,int tesoura){
-  return 0;
+  // pedra = 1
+  // papel = 2
+  // tesoura = 3
+  jogada_mao = random(1,4);
+
+  //acha qual a jogada do player
+  aux = 0;
+  possiveis_jgds[3] = {pedra, papel, tesoura};
+  for (int i=0; i<3; i++){
+    if ((possiveis_jgds[i]) > aux){
+      jogada_palyer = possiveis_jgds[i];
+    }
+  
+  // diz quem venceu
+  resp = jogada_mao - jogada_palyer
+  if (resp == 1 || resp = -2){
+    // mão venceu
+    return 1;
+  }
+  else if (resp == -1 || resp == 2){
+    // palyer venceu
+    return -1;
+  }
+  else if (resp == 0){
+    // empate
+    return 0;
+  }
+
+  }
+  
 }
 
 void loop(){
@@ -169,27 +204,26 @@ void loop(){
 
         // Leu o estado dos pinos
 
-
         Serial.print("Jogo escolhido: ");
         Serial.println(modo_de_jogo);
 
-        int pedra = 1,papel = 1,tesoura = 1;
+        int pedra = 0,papel = 0,tesoura = 0;
 
         
         if (recebido == "Pedra,"){
-          pedra = 0;
-          papel = 1;
-          tesoura = 1;
-        };
-        if (recebido == "Papel,"){
           pedra = 1;
           papel = 0;
-          tesoura = 1;
+          tesoura = 0;
+        };
+        if (recebido == "Papel,"){
+          pedra = 0;
+          papel = 2;
+          tesoura = 0;
         };
         if (recebido == "Tesoura,"){
-          pedra = 1;
-          papel = 1;
-          tesoura = 0;
+          pedra = 0;
+          papel = 0;
+          tesoura = 3;
         };
         
 

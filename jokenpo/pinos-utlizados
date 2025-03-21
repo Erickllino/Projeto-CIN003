@@ -1,0 +1,30 @@
+// ---- Analógicos ----
+ESCOLHER_O_JOGO A0
+RANDOM_SEED A1
+
+// ---- Digitais ----
+PEDRA_PIN 2
+PAPEL_PIN 3
+TESOURA_PIN 4
+DESCONHECIDO_PIN 5
+ /* Ainda vai utilizar esses pinos acima?*/
+LED_PEDRA 3 // !!! SE REPETE !!!
+LED_PAPEL 4 // !!! SE REPETE !!!
+LED_TESOURA 5 // !!! SE REPETE !!!
+
+MAO_PEDRA 8
+MAO_PAPEL 9
+MAO_TESOURA 10 // !!! SE REPETE !!!
+
+dedo_polegar_p1 10 // !!! SE REPETE !!!
+dedo_polegar_p2 11
+dedo_indicador_p1 12
+dedo_indicador_p2 13
+dedo_medio_p1 14
+dedo_medio_p2 15
+dedo_anelar_p1 16
+dedo_anelar_p2 17
+dedo_minimo_p1 18
+dedo_minimo_p2 19
+
+/* Ainda vamos precisar de mais 2 pinos para o som*/
