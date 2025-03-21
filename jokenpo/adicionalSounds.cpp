@@ -1,6 +1,12 @@
 #include "adicionalSounds.h"
 #include <Arduino.h>
 
+/* o módulo do cartõ microsd precisa de 2 pinos digitais
+1 ground e um 5v*/
+
+/* precisamos definir quais serão os pinos e só posso fazer a impletação do som depois que tiver o cartão
+pois é com ele que seleciona as músicas*/
+
 
 // Funções para reagir ao resultado
 void mao_vencedora(){
