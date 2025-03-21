@@ -45,7 +45,7 @@ void setup(){
   pinMode(MAO_TESOURA, OUTPUT);
 
   // Implementa críterios de aleatóriedade para sorteio
-  randomSeed(analogRead(A1))
+  randomSeed(analogRead(A1));
 }
 
 // Estamos escrevendo muitas funçoes, acho interresante criar um arquivo .h para colocar todas as funções
@@ -161,19 +161,35 @@ int aleatorio(int pedra,int papel,int tesoura){
   // pedra = 1
   // papel = 2
   // tesoura = 3
-  jogada_mao = random(1,4);
+  int jogada_mao = random(1,4);
+  if (jogada_mao == 1){
+    Serial.print("Joguei tesoura");
+    // Adiciona a função que faz a mão jogar pedra
+    jogar_pedra();
+  }
+   else if (jogada_mao == 2){
+    Serial.print("Joguei pedra");
+    // Adiciona a função que faz a mão jogar papel
+    jogar_papel();
+  }
+   else if (jogada_mao == 3){
+    Serial.print("Joguei papel");
+    // Adiciona a função que faz a mão jogar tesoura
+    jogar_tesoura();
+  }
 
   //acha qual a jogada do player
-  aux = 0;
-  possiveis_jgds[3] = {pedra, papel, tesoura};
+  int aux = 0;
+  int jogada_player;
+  int possiveis_jgds[3] = {pedra, papel, tesoura};
   for (int i=0; i<3; i++){
     if ((possiveis_jgds[i]) > aux){
-      jogada_palyer = possiveis_jgds[i];
+      jogada_player = possiveis_jgds[i];
     }
   
   // diz quem venceu
-  resp = jogada_mao - jogada_palyer
-  if (resp == 1 || resp = -2){
+  int resp = jogada_mao - jogada_player;
+  if (resp == 1 || resp == -2){
     // mão venceu
     return 1;
   }
