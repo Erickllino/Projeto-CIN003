@@ -71,6 +71,9 @@ int jogo_Escolhido(int valor){
   }
 	return 0;
   // !!! Ideia: fazer a mão dar joinha pra confirmar que realmente um botão foi confirmado, oq acha? !!!
+	// !! Como a gemte tá pensando em usar só dois servos pra controlar os dedos 
+	// (um para o dedão, anelar e mindinho e outro pra idicador e meio), 
+	// não daria pra fazer um joinha !!
 }
 
 
@@ -194,7 +197,7 @@ int aleatorio(int pedra,int papel,int tesoura){
     return 1;
   }
   else if (resp == -1 || resp == 2){
-    // palyer venceu
+    // player venceu
     return -1;
   }
   else if (resp == 0){
@@ -253,6 +256,7 @@ void loop(){
           resultado = empatar(pedra,papel,tesoura);
         }else if(modo_de_jogo == 4){
             // Função que ainda não foi criada
+		// Acho que eu vi essa função no jokenpo.ino
           resultado = aleatorio(pedra,papel,tesoura);
         }
 
