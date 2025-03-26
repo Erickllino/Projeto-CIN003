@@ -76,7 +76,7 @@ int jogo_Escolhido(int valor){
 	// não daria pra fazer um joinha !!
 }
 
-
+// Fazer as funçoes da mão 
 void jogar_pedra() {
     digitalWrite(MAO_PEDRA, HIGH);
     digitalWrite(MAO_PAPEL, LOW);
@@ -99,7 +99,7 @@ void jogar_tesoura() {
 int ganhar(int pedra,int papel, int tesoura){
 
     
-  if (tesoura == 3){
+  if (tesoura == 1){
     Serial.print("Joguei tesoura");
     // Adiciona a função que faz a mão jogar pedra
     jogar_pedra();
@@ -109,7 +109,7 @@ int ganhar(int pedra,int papel, int tesoura){
     // Adiciona a função que faz a mão jogar papel
     jogar_papel();
   }
-   else if (papel == 2){
+   else if (papel == 1){
     Serial.print("Joguei papel");
     // Adiciona a função que faz a mão jogar tesoura
     jogar_tesoura();
@@ -121,7 +121,7 @@ int ganhar(int pedra,int papel, int tesoura){
 int empatar(int pedra,int papel, int tesoura){
 
     
-  if (tesoura == 3){
+  if (tesoura == 1){
     Serial.print("Joguei tesoura");
     // Adiciona a função que faz a mão jogar tesoura
     jogar_tesoura();
@@ -131,7 +131,7 @@ int empatar(int pedra,int papel, int tesoura){
     // Adiciona a função que faz a mão jogar pedra
     jogar_pedra();
   }
-   else if (papel == 2){
+   else if (papel == 1){
     Serial.print("Joguei papel");
     // Adiciona a função que faz a mão jogar papel
     jogar_papel();
@@ -139,10 +139,8 @@ int empatar(int pedra,int papel, int tesoura){
   return 0;
 }
 
-int perder(int pedra,int papel, int tesoura){
-
-    
-  if (tesoura == 3){
+int perder(int pedra,int papel, int tesoura){    
+  if (tesoura == 1){
     Serial.print("Joguei tesoura");
     // Adiciona a função que faz a mão jogar papel
     jogar_papel();
@@ -152,7 +150,7 @@ int perder(int pedra,int papel, int tesoura){
     // Adiciona a função que faz a mão jogar tesoura
     jogar_tesoura();
   }
-   else if (papel == 2){
+   else if (papel == 1){
     Serial.print("Joguei papel");
     // Adiciona a função que faz a mão jogar pedra
     jogar_pedra();
@@ -161,67 +159,64 @@ int perder(int pedra,int papel, int tesoura){
 }
 
 int aleatorio(int pedra,int papel,int tesoura){
-  // pedra = 1
-  // papel = 2
-  // tesoura = 3
+
   int jogada_mao = random(1,4);
+  int mao_pedra = 0, mao_papel = 0, mao_tesoura = 0;
+
   if (jogada_mao == 1){
     Serial.print("Joguei tesoura");
+    mao_tesoura = 1;
     // Adiciona a função que faz a mão jogar pedra
     jogar_pedra();
   }
    else if (jogada_mao == 2){
     Serial.print("Joguei pedra");
+    mao_pedra = 1;
     // Adiciona a função que faz a mão jogar papel
     jogar_papel();
   }
    else if (jogada_mao == 3){
     Serial.print("Joguei papel");
+    mao_papel = 1;
     // Adiciona a função que faz a mão jogar tesoura
     jogar_tesoura();
   }
 
   //acha qual a jogada do player
   int aux = 0;
-  int jogada_player;
-  int possiveis_jgds[3] = {pedra, papel, tesoura};
-  for (int i=0; i<3; i++){
-    if ((possiveis_jgds[i]) > aux){
-      jogada_player = possiveis_jgds[i];
-    }
-  
-  // diz quem venceu
-  int resp = jogada_mao - jogada_player;
-  if (resp == 1 || resp == -2){
-    // mão venceu
+
+  if ((mao_pedra == 1 && tesoura == 1) ||
+        (mao_papel == 1 && pedra == 1) ||
+        (mao_tesoura == 1 && papel == 1)) {
     return 1;
   }
-  else if (resp == -1 || resp == 2){
-    // player venceu
+  else if ((pedra == 1 && mao_tesoura == 1) ||
+             (papel == 1 && mao_pedra == 1) ||
+             (tesoura == 1 && mao_papel == 1)) {
     return -1;
   }
-  else if (resp == 0){
-    // empate
-    return 0;
+    // Caso não haja combinação vencedora, ocorre empate
+  else {
+      return 0;
   }
+  
 
-  }
+
   
 }
 
 void loop(){
 
     if (Serial.available() > 0) {  // Verifica se há dados disponíveis na serial
-        String recebido = Serial.readStringUntil(', ');  // Lê a string até encontrar um caractere de nova linha
+        String recebido = Serial.readStringUntil('_');  // Lê a string até encontrar um caractere de nova linha
         recebido.trim(); // Remove espaços e quebras de linha extras
         
-        
-
         // Escolhe qual dos 3 jogos serão jogados
         int potencio = analogRead(A0);
         int modo_de_jogo = jogo_Escolhido(potencio);
 
         // Leu o estado dos pinos
+        Serial.println(recebido);
 
         Serial.print("Jogo escolhido: ");
         Serial.println(modo_de_jogo);
@@ -229,20 +224,14 @@ void loop(){
         int pedra = 0,papel = 0,tesoura = 0;
 
         
-        if (recebido == "Pedra,"){
+        if (recebido == "Pedra_"){
           pedra = 1;
-          papel = 0;
-          tesoura = 0;
         };
-        if (recebido == "Papel,"){
-          pedra = 0;
-          papel = 2;
-          tesoura = 0;
+        if (recebido == "Papel_"){
+          papel = 1;
         };
-        if (recebido == "Tesoura,"){
-          pedra = 0;
-          papel = 0;
-          tesoura = 3;
+        if (recebido == "Tesoura_"){
+          tesoura = 1;
         };
         
 
