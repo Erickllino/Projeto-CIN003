@@ -57,18 +57,18 @@ def detectar_gesto(hand_landmarks):
     mindinho = d4 > threshold
 
     if indicador and medio and anelar and mindinho:
-        return "Papel"
+        return "Papel_"
     elif not indicador and not medio and not anelar and not mindinho:
-        return "Pedra"
+        return "Pedra_"
     elif indicador and medio and not anelar and not mindinho:
-        return "Tesoura"
+        return "Tesoura_"
     else:
-        return "Desconhecido"
+        return "Desconhecido_"
 
 def enviar_sinal(gesto):
     # Envia o gesto para o Arduino via serial
-    if gesto in ["Pedra", "Papel", "Tesoura"]:
-        gesto = gesto + ', '
+    if gesto in ["Pedra_", "Papel_", "Tesoura_"]:
+        
         ser.write(gesto.encode())  # Envia o gesto como string para o Arduino
         print(f"Enviado para o Arduino: {gesto}")
     #time.sleep(1)  # Pequeno delay para evitar sinais rápidos demais
