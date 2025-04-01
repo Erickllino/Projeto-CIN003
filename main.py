@@ -1,14 +1,16 @@
 import cv2
 import mediapipe as mp
-import serial
+import serial #Biblioteca para comunicação serial (pyserial)
 import time
 
-def connect_to_arduino(port='/dev/ttyACM0', baud_rate=9600, timeout=2, attempts=5):
+
+porta = '/dev/ttyACM0'
+def connect_to_arduino(port='COM6', baud_rate=9600, timeout=2, attempts=5):
     for attempt in range(attempts):
         try:
             print(f"Attempting to connect to Arduino on {port} (attempt {attempt+1}/{attempts})")
             ser = serial.Serial(port, baud_rate, timeout=timeout)
-            time.sleep(2)  # Give the connection time to establish
+            time.sleep(2)  
             print("Successfully connected to Arduino")
             return ser
         except serial.SerialException as e:
@@ -20,7 +22,7 @@ def connect_to_arduino(port='/dev/ttyACM0', baud_rate=9600, timeout=2, attempts=
     print("Could not establish connection to Arduino. Please check your connections.")
     return None
 
-# Then in your main code:
+# Conecta ao Arduino
 ser = connect_to_arduino()
 if ser is None:
     print("Exiting program due to connection failure")
@@ -57,20 +59,24 @@ def detectar_gesto(hand_landmarks):
     mindinho = d4 > threshold
 
     if indicador and medio and anelar and mindinho:
-        return "Papel_"
+        return 'P'
     elif not indicador and not medio and not anelar and not mindinho:
-        return "Pedra_"
+        return 'R'
     elif indicador and medio and not anelar and not mindinho:
-        return "Tesoura_"
+        return 'S'
     else:
-        return "Desconhecido_"
+        return "Desconhecido"
 
 def enviar_sinal(gesto):
     # Envia o gesto para o Arduino via serial
-    if gesto in ["Pedra_", "Papel_", "Tesoura_"]:
+    if gesto in ['R', 'P', 'S']:
         
         ser.write(gesto.encode())  # Envia o gesto como string para o Arduino
         print(f"Enviado para o Arduino: {gesto}")
+
+
+  # Exibe os dados recebidos
+
     #time.sleep(1)  # Pequeno delay para evitar sinais rápidos demais
 
 try:
@@ -93,6 +99,8 @@ try:
         cv2.imshow("Hand Tracking", frame)
         if cv2.waitKey(1) & 0xFF == ord("q"):
             break
+
+
 finally:
     cap.release()
     cv2.destroyAllWindows()
