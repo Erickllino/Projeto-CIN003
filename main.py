@@ -69,7 +69,7 @@ def detectar_gesto(hand_landmarks):
 
 def enviar_sinal(gesto):
     # Envia o gesto para o Arduino via serial
-    if gesto in ['R', 'P', 'S']:
+    if gesto in ['R', 'P', 'S' ]:
         
         ser.write(gesto.encode())  # Envia o gesto como string para o Arduino
         print(f"Enviado para o Arduino: {gesto}")

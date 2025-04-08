@@ -1,0 +1,20 @@
+16/02 - Criação do arquivo base do arduino
+17/02 - Criação do script python para rodar no raspberrypi
+
+6/03 - Testes no raspberrypi3 disponibilizado
+
+17/03 - Simulação do projeto no tinkercad, utilizando led como substituições para mão
+caso a mão não consiga ser disponibilizada a tempo (https://www.tinkercad.com/things/aNm5hV9YfCS-projeto-ic)
+
+18/03 -  Ao testar o raspberrypi3 do lab, vi que ele não será o bastante para fazer
+o projeto, ele não tem poder de processamento para rodar a biblioteca utilizada para
+reconhecimento de gestos
+
+19/03 -  Troquei o arquivo de reconhecimento para enviar o sinal via computador utilizando
+o script em python, utilizando comunicação I2C
+
+20/03 | 31/03 - Organização do script principal do projeto e adição de multiplas funcionalidades (jokenpo.ino)
+
+02/04 -  Montagem da mão juntamente da parte eletronica do trabalho
+
+
